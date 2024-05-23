@@ -33,7 +33,6 @@ function WelcomeComponent(){
     return(
         <div className="Welcome">
             Welcome Component
-            <label>Hi</label>
         </div>
     )
 }
