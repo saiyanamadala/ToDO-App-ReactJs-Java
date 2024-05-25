@@ -9,6 +9,7 @@ import WelcomeComponent from './WelcomeComponent'
 import LoginComponent from './LoginComponent'
 import AuthProvider from './security/AuthContext'
 import { useAuth } from './security/AuthContext'
+import TodoUpdate from './TodoUpdate'
 
 
 
@@ -49,6 +50,12 @@ export default function ToDoApp() {
                                 <ToDoComponent />
                             </AuthenticatedRoute>
                         }></Route>
+                        <Route path="/update/:id" element={
+                            <AuthenticatedRoute>
+                                <TodoUpdate/>
+                            </AuthenticatedRoute>
+                        }></Route>
+
                         <Route path='/logout' element={<LogoutComponent />}></Route>
                     </Routes>
 
