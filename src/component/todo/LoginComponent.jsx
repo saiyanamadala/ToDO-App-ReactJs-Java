@@ -17,8 +17,8 @@ function LoginComponent(){
         setPassword(event.target.value)
     }
 
-    function handleLogin(){
-        if(auth.login(username,password)){
+    async function handleLogin(){
+        if(await auth.login(username,password)){
             
             navigate(`/welcome/${username}`)
         }

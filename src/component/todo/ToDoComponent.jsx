@@ -54,6 +54,10 @@ function ToDoComponent(){
         navigate(`/update/${id}`)
     }
 
+    function addNewTodo(){
+        navigate(`/update/-1`)
+    }
+
     return(
         <div className="container">
             <h1>ToDO Component</h1>
@@ -85,7 +89,9 @@ function ToDoComponent(){
                     }
                 </tbody>
             </table>
-
+            <div>
+                <button className="btn btn-success m-3" onClick={addNewTodo}>Create ToDo</button>
+            </div>
         </div>
     )
 }

@@ -3,6 +3,10 @@ import { retrieveTodo } from "./Api/TodoApiService"
 import { useAuth } from "./security/AuthContext"
 import { useEffect, useState } from "react"
 import { ErrorMessage, Field, Form, Formik } from "formik"
+import { useNavigate } from "react-router-dom"
+import { updateTodoApi } from "./Api/TodoApiService"
+import { createTodoApi } from "./Api/TodoApiService"
+import moment from 'moment'
 
 export default function TodoUpdate(){
 
@@ -13,11 +17,14 @@ export default function TodoUpdate(){
     const [description,setDescription]=useState('')
     const [targetDate,setTargetDate]=useState(null)
 
+    const navigate=useNavigate()
+    
     useEffect(
         ()=>retrieveTodos(),[id]
     )
 
 function retrieveTodos(){
+    if(id!==-1){
     retrieveTodo(username,id)
     .then(response=>{
         //console.log(response)
@@ -27,9 +34,37 @@ function retrieveTodos(){
     .catch(error=>console.log(error))
     .finally('clean')
 }
+}
 
 function onSubmit(values){
+    
     console.log(values)
+    const todo = {
+        id: id,
+        username: username,
+        description: values.description,
+        targetDate: values.targetDate,
+        done: false
+    }
+    
+    console.log(todo)
+
+    if(id===-1){
+        createTodoApi(username, todo)
+        .then(response => {
+        
+            navigate('/todos')
+        })
+        .catch(error => console.log(error))
+    }
+    else{
+    updateTodoApi(username, id, todo)
+    .then(response => {
+        
+        navigate('/todos')
+    })
+    .catch(error => console.log(error))
+}
 }
 
 function validate(values) {
@@ -42,7 +77,7 @@ function validate(values) {
         errors.description = 'Enter atleast 5 characters'
     }
 
-    if(values.targetDate == null) {
+    if(values.targetDate === null || values.targetDate==='' ||!moment(values.targetDate).isValid()) {
         errors.targetDate = 'Enter a target date'
     }
 
